@@ -1,0 +1,58 @@
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  display: none; /*default hidden*/
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.popup-overlay h2,
+label {
+  color: white;
+}
+
+h2 {
+  text-align: center;
+}
+
+/* popup box */
+.popup-content {
+  background: #6b0f1a;
+  padding: 20px;
+  border-radius: 20px;
+  width: 500px;
+  height: 500px;
+  box-shadow: 0 0 10px #000;
+  position: relative;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+input {
+  color: #000;
+}
+
+/* close btn */
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 14px;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+#submit-btn {
+  color: #000;
+  width: 100px;
+  height: 50px;
+  align-self: center;
+  margin-top: 40px;
+}

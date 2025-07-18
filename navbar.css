@@ -1,0 +1,44 @@
+.header {
+    position: sticky;
+    top: 0;
+    left: 0;
+    min-height: 80px;
+    width: 100%;
+    padding: 20px 10%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 100;
+    background-color: #6B0F1A;
+}
+
+.name {
+    font-size: 32px;
+    font-weight: 600;
+    color: gold;
+}
+
+.navbar a {
+    position: relative;
+    font-size: 20px;
+    font-weight: 400;
+    margin-left: 40px;
+    color: white;
+}
+
+
+
+.navbar a::before {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: white;
+    transition: .3s;
+}
+
+.navbar a:hover::before {
+    width: 100%;
+}
