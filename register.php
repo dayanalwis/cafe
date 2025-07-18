@@ -3,6 +3,12 @@ include "db.php";
 
 // Only run when form is submitted via POST
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
+
+
+  echo "<pre>";
+print_r($_POST);
+echo "</pre>";
+
   // Check if required fields are set
   if (
     isset($_POST['first_name']) && isset($_POST['last_name']) &&
