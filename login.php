@@ -2,10 +2,13 @@
 session_start();
 include "db.php";
 
+
+
 $error = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $email = trim($_POST['email']);
+
   $password = $_POST['password'];
 
   // Prepare statement to prevent SQL injection
@@ -14,8 +17,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmt->execute();
     $result = $stmt->get_result();
 
+
     if ($row = $result->fetch_assoc()) {
       if (password_verify($password, $row['password'])) {
+
+
+
         $_SESSION['user_id'] = $row['id'];
         $_SESSION['role'] = $row['role'];
 
