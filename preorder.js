@@ -7,42 +7,78 @@ const preorderConfirm = document.getElementById("preorder-confirmation");
 const foodCategory = document.getElementById("food-category");
 const foodItem = document.getElementById("food-item");
 
-const subItems = {
-  SriLankan: [
-    "Chicken Fried Rice",
-    "Egg Fried Rice",
-    "Mix Fried Rice",
-    "Seafood Fried Rice",
-    "Vegetable Fried Rice",
-  ],
-  Chinese: [
-    "Chili Chicken",
-    "Sweet and Sour Pork",
-    "Beef with Broccoli",
-    "Spring Rolls",
-    "Vegetable Noodles",
-  ],
-  Italian: [
-    "Spaghetti Bolognese",
-    "Lasagna",
-    "Fettuccine Alfredo",
-    "Margherita Pizza",
-    "Pasta Carbonara",
-  ],
-};
+// const subItems = {
+//   SriLankan: [
+//     "Chicken Fried Rice",
+//     "Egg Fried Rice",
+//     "Mix Fried Rice",
+//     "Seafood Fried Rice",
+//     "Vegetable Fried Rice",
+//   ],
+//   Chinese: [
+//     "Chili Chicken",
+//     "Sweet and Sour Pork",
+//     "Beef with Broccoli",
+//     "Spring Rolls",
+//     "Vegetable Noodles",
+//   ],
+//   Italian: [
+//     "Spaghetti Bolognese",
+//     "Lasagna",
+//     "Fettuccine Alfredo",
+//     "Margherita Pizza",
+//     "Pasta Carbonara",
+//   ],
+// };
 
-// Populate dish options based on category
+// 🔄 Fetch categories on load
+function loadCategories() {
+  fetch("get_meal_data.php")
+    .then((res) => res.json())
+    .then((data) => {
+      foodCategory.innerHTML = `<option value="">-- Select Category --</option>`;
+      data.categories.forEach((cat) => {
+        const opt = document.createElement("option");
+        opt.value = cat;
+        opt.textContent = cat;
+        foodCategory.appendChild(opt);
+      });
+    })
+    .catch((err) => console.error("Error loading categories:", err));
+}
+
+// // Populate dish options based on category
+// foodCategory.addEventListener("change", function () {
+//   const selected = this.value;
+//   foodItem.innerHTML = `<option value="">-- Select Dish --</option>`;
+//   if (subItems[selected]) {
+//     subItems[selected].forEach((dish) => {
+//       const option = document.createElement("option");
+//       option.value = dish;
+//       option.textContent = dish;
+//       foodItem.appendChild(option);
+//     });
+//   }
+// });
+
+// 🔄 Fetch meals for selected category
 foodCategory.addEventListener("change", function () {
   const selected = this.value;
   foodItem.innerHTML = `<option value="">-- Select Dish --</option>`;
-  if (subItems[selected]) {
-    subItems[selected].forEach((dish) => {
-      const option = document.createElement("option");
-      option.value = dish;
-      option.textContent = dish;
-      foodItem.appendChild(option);
-    });
-  }
+
+  if (!selected) return;
+
+  fetch(`get_meal_data.php?category=${encodeURIComponent(selected)}`)
+    .then((res) => res.json())
+    .then((data) => {
+      data.meals.forEach((meal) => {
+        const opt = document.createElement("option");
+        opt.value = meal;
+        opt.textContent = meal;
+        foodItem.appendChild(opt);
+      });
+    })
+    .catch((err) => console.error("Error loading meals:", err));
 });
 
 // Open popup
@@ -86,11 +122,36 @@ preorderForm.addEventListener("submit", function (e) {
     return;
   }
 
-  preorderConfirm.innerHTML = `
-    ✅ Thank you, ${name}!<br>
-    Your order for <strong>${quantity} x ${dish}</strong> (${category}) is confirmed.<br>
-    Arrival time: <strong>${time}</strong>
-  `;
-  preorderConfirm.style.display = "block";
-  preorderForm.style.display = "none";
+  fetch("submit_preorder.php", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      name,
+      phone,
+      category,
+      dish,
+      quantity,
+      arrival_time: time,
+    }),
+  })
+    .then((res) => res.json())
+    .then((data) => {
+      if (data.success) {
+        preorderConfirm.innerHTML = `
+          ✅ Thank you, ${name}!<br>
+          Your order for <strong>${quantity} x ${dish}</strong> (${category}) is confirmed.<br>
+          Arrival time: <strong>${time}</strong>
+        `;
+        preorderConfirm.style.display = "block";
+        preorderForm.style.display = "none";
+      } else {
+        alert("❌ Error: " + data.error);
+      }
+    })
+    .catch((err) => {
+      console.error("Error submitting preorder:", err);
+      alert("❌ Failed to submit your order. Please try again later.");
+    });
 });

@@ -20,8 +20,39 @@ const lankaBtn = document.getElementById("breakfast-btn");
 const lankapopup = document.getElementById("srilankan-menu-popup");
 const lankacloseBtn = document.getElementById("close-lanka-menu-btn");
 
+// lankaBtn.addEventListener("click", () => {
+//   lankapopup.style.display = "flex";
+// });
+
 lankaBtn.addEventListener("click", () => {
-  lankapopup.style.display = "flex";
+  fetch("get_srilankan_meals.php")
+    .then((response) => response.json())
+    .then((meals) => {
+      const container = document.getElementById("srilankan-meals-list");
+      container.innerHTML = ""; // Clear existing
+
+      if (meals.length === 0) {
+        container.innerHTML = "<p>No Sri Lankan meals found.</p>";
+        return;
+      }
+
+      meals.forEach((meal) => {
+        const mealDiv = document.createElement("div");
+        mealDiv.classList.add("meal-item");
+        mealDiv.innerHTML = `
+          <h3>${meal.name}</h3>
+          <p>Price: Rs. ${meal.price}</p>
+          <p>${meal.description || ""}</p>
+          <hr/>
+        `;
+        container.appendChild(mealDiv);
+      });
+
+      lankapopup.style.display = "flex";
+    })
+    .catch((error) => {
+      console.error("Error fetching meals:", error);
+    });
 });
 
 lankacloseBtn.addEventListener("click", () => {

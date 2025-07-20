@@ -2,11 +2,11 @@
 session_start();
 
 // Redirect if not logged in or not admin
-if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
-  header("Location: login.php");
-  exit;
-}
-?>
+// if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
+//   header("Location: login.php");
+//   exit;
+// }
+// ?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -66,14 +66,15 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
     <h1>Welcome, Admin</h1>
 
     <div class="menu">
-      <a href="#">👥 Manage Users</a>
-      <a href="#">🍽️ Add / Edit Food Menu</a>
-      <a href="#">📦 View Pre-Orders</a>
-      <a href="#">📅 View Reservations</a>
+      <a href="users_page.php">👥 Manage Users</a>
+      <a href="food_menu.php">🍽️ Add / Edit Food Menu</a>
+      <a href="preorders_page.php">📦 View Pre-Orders</a>
+      <a href="reservations_page.php">📅 View Reservations</a>
       <a href="#">⚙️ Website Settings</a>
     </div>
 
     <div class="logout">
+      <p><a href="index.html">Home</a></p>
       <p><a href="logout.php">Logout</a></p>
     </div>
   </div>

@@ -81,6 +81,7 @@
         </div>
       </div>
 
+      <!-- Register Popup -->
       <div id="register-popup" class="popup-overlay">
         <div class="popup-content">
           <span class="close-btn" id="close-popup">x</span>
@@ -106,6 +107,10 @@
 
             <button id="submit-btn" type="submit">Register</button>
           </form>
+          <div>
+            <h3>Already have an account?</h3>
+            <a href="login.php">Login</a>
+          </div>
         </div>
       </div>
 
@@ -124,10 +129,10 @@
             <div id="srilankan-menu-popup" class="menu-overlay">
               <div class="sl-menu-content">
                 <span class="close-menu-btn" id="close-lanka-menu-btn">x</span>
-
-                <video id="menu" autoplay muted loop playinline>
-                  <source src="./assets/srilankan.mp4" />
-                </video>
+                <h2>Sri Lankan Meals</h2>
+                <div id="srilankan-meals-list">
+                  <!-- Meals will be injected here -->
+                </div>
               </div>
             </div>
 
@@ -303,7 +308,7 @@
     </div>
     <script src="script.js"></script>
     <script src="preorder.js"></script>
-    <script src="res.js"></script>
+    <script src="reservation.js"></script>
     <script src="search.js"></script>
   </body>
 </html>
